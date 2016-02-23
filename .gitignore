@@ -1,0 +1,11 @@
+*.log
+*.pot
+*.py[co]
+.Python
+bin
+lib
+share
+include
+.tmp
+*.h5
+output/*
