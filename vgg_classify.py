@@ -1,15 +1,15 @@
-'''Neural style transfer with Keras.
+'''Fool VGG16 with Keras.
 Before running this script, download the weights for the VGG16 model at:
 https://drive.google.com/file/d/0Bz7KyqmuGsilT0J5dmRCM0ROVHc/view?usp=sharing
 (source: https://gist.github.com/baraldilorenzo/07d7802847aaad0a35d3)
 and make sure the variable `weights_path` in this script matches the location of the file.
 Run the script with:
 ```
-python deception.py path_to_your_base_image.jpg prefix_for_results
+python deception.py path_to_your_base_image.jpg prefix_for_results desired_class
 ```
 e.g.:
 ```
-python deception.py img/tuebingen.jpg results/my_result
+python deception.py img/tuebingen.jpg results/my_result 7
 ```
 It is preferrable to run this script on GPU, for speed.
 If running on CPU, prefer the TensorFlow backend (much faster).
@@ -66,7 +66,6 @@ def deprocess_image(x):
 
 # get tensor representations of our images
 input_image = K.placeholder((1, 3, img_width, img_height))
-#input_tensor = K.concatenate([base_image], axis=0)
 # build the VGG16 network with our 3 images as input
 first_layer = ZeroPadding2D((1, 1), input_shape=(3, img_width, img_height))
 first_layer.input = input_image

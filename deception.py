@@ -72,7 +72,6 @@ def deprocess_image(x):
 
 # get tensor representations of our images
 input_image = K.placeholder((1, 3, img_width, img_height))
-#input_tensor = K.concatenate([base_image], axis=0)
 # build the VGG16 network with our 3 images as input
 first_layer = ZeroPadding2D((1, 1), input_shape=(3, img_width, img_height))
 first_layer.input = input_image
@@ -202,19 +201,19 @@ try:
         start_time = time.time()
         x, min_val, info = fmin_l_bfgs_b(evaluator.loss, x.flatten(),
                                          fprime=evaluator.grads, maxfun=20)
-        print('Current loss value:', min_val)
-        # save current generated image
-        img = deprocess_image(x.reshape((3, img_width, img_height)))
-        fname = result_prefix + '_at_iteration_%d.png' % i
-        imsave(fname, img)
         end_time = time.time()
-        print('Image saved as', fname)
+        print('Current loss value:', min_val)
         print('Iteration %d completed in %ds' % (i, end_time - start_time))
 except KeyboardInterrupt:
     pass
-finally:
-    x = x.reshape((1, 3, img_width, img_height))
+
+# save current generated image
+img = deprocess_image(x.reshape((3, img_width, img_height)))
+fname = result_prefix + '_at_iteration_%d.png' % i
+imsave(fname, img)
+print('Image saved as', fname)
 
 # did we fool the network?
+x = x.reshape((1, 3, img_width, img_height))
 predicted_classes = f_class_output([x])[0]
 print('New class prediction {}'.format(np.argmax(predicted_classes)))
